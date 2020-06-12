@@ -4,6 +4,7 @@
 # In[1]:
 
 
+import pickle
 import time
 import pandas as pd
 import numpy as np
@@ -22,9 +23,14 @@ import matplotlib.pyplot as plt
 # In[3]:
 
 
-NROWS = 10_000_000
+#NROWS = 100_000_000
+NROWS = 1_000_000
 NBR_LOOPS = 100
 MATH_FN = 'mean'
+#MATH_FN = 'std'
+#MATH_FN = 'max'
+timings_filename = "timings.png"
+results_filename = "timings.pickle"
 
 dtypes = ['int64', 'int32', 'int16', 'int8', 'uint8', 'float128', 'float64', 'float32', 'float16']
 cols = {}
@@ -111,9 +117,11 @@ new_yticks=[f"{d}s" for d in locs]
 plt.yticks(locs,new_yticks); #, rotation=45, horizontalalignment='right')
 ax.set_xlabel('dtype');
 
-ax.get_figure().savefig('timings.png')
+ax.get_figure().savefig(timings_filename)
 #plt.show()
 
+with open(results_filename, "wb") as f:
+    pickle.dump(df_results, f)
 
 # In[ ]:
 
