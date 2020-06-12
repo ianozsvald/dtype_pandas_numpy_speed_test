@@ -5,6 +5,8 @@ Speed test on Pandas or NumPy
 
 Try `$ python speed_test_combined.py` and post `timings.png` as a bug with some notes on CPU if possible.
 
+![](timings.png)
+
 This machine: i7:
 ```
 $ sudo i7z
@@ -22,7 +24,6 @@ i7z DEBUG: modprobbing for msr
 
 ```
 
-[timings.png`](timings)
 
 # Setup
 
