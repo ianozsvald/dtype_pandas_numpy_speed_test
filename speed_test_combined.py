@@ -13,6 +13,9 @@ import matplotlib.pyplot as plt
 #get_ipython().run_line_magic('ipython_memory_usage_start', '')
 
 
+print(f"Pandas: {pd.__version__}")
+print(f"NumPy: {np.__version__}")
+
 # In[2]:
 
 
@@ -24,7 +27,7 @@ import matplotlib.pyplot as plt
 
 
 #NROWS = 100_000_000
-NROWS = 1_000_000
+NROWS = 10_000_000
 NBR_LOOPS = 100
 MATH_FN = 'mean'
 #MATH_FN = 'std'
@@ -32,7 +35,8 @@ MATH_FN = 'mean'
 timings_filename = "timings.png"
 results_filename = "timings.pickle"
 
-dtypes = ['int64', 'int32', 'int16', 'int8', 'uint8', 'float128', 'float64', 'float32', 'float16']
+dtypes = ['int64', 'int32', 'int16', 'int8', 'uint8', 'longdouble', 'float64', 'float32', 'float16']
+#dtypes = ['int64', 'int32', 'int16', 'int8', 'uint8', 'float128', 'float64', 'float32', 'float16']
 cols = {}
 for dtyp in dtypes:
     # makes random data using normal distribution, then cast
@@ -84,9 +88,9 @@ df_results.info()
 
 
 gpby = df_results.groupby(['fn_name', 'col'])
-means = gpby.mean().unstack(0)
-means = means.loc[dtypes]
-means
+central_measure = gpby.median().unstack(0)
+central_measure = central_measure.loc[dtypes]
+central_measure
 
 
 # In[ ]:
@@ -103,10 +107,10 @@ se_95pc
 
 
 fig, ax = plt.subplots(figsize=(8, 6))
-means.plot(kind='bar', ax=ax, yerr=se_95pc)
+central_measure.plot(kind='bar', ax=ax, yerr=se_95pc)
 
 title = f"Fn '{MATH_FN}' execution time on {NROWS:,} rows of normal rnd over {NBR_LOOPS:,} loops"
-title += f"\nBlack bars are the 95% Confidence Interval"
+title += f"\nBlack bars are the 95% Confidence Interval. Central measure is: median"
 title += "\nUsing Pandas Series and Series.values"
 ax.set_title(title);
 ax.set_ylabel('Seconds (smaller is better)');
@@ -116,6 +120,8 @@ y_ticks = []
 new_yticks=[f"{d}s" for d in locs]
 plt.yticks(locs,new_yticks); #, rotation=45, horizontalalignment='right')
 ax.set_xlabel('dtype');
+ax.get_figure().tight_layout()
+ax.grid()
 
 ax.get_figure().savefig(timings_filename)
 #plt.show()
