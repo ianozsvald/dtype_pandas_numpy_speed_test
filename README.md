@@ -13,6 +13,27 @@ This was developed whilst working on my Pandas memory-reduction tool https://git
 
 # Timing
 
+The following script expands upon:
+```
+import pandas as pd
+import numpy as np
+arr = pd.Series(np.ones(shape=1_000_000))
+arr.values.dtype                                                                                                                                                         
+Out[]: dtype('float64')
+
+# call arr.mean() vs arr.values.mean(), note circa 10* speed difference
+# with 4ms vs 0.4ms
+%timeit arr.mean()
+4.59 ms ± 44.4 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+
+%timeit arr.values.mean()
+485 µs ± 5.73 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+
+# note that arr.values dereference is very cheap (nano seconds)
+%timeit arr.values 
+456 ns ± 0.828 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+```
+
 Try `$ python speed_test_combined.py` and post `timings.png` as a bug with some notes on CPU if possible.
 
 Generated with:
@@ -49,8 +70,6 @@ i7z DEBUG: modprobbing for msr
 
 * Try Pandas dtypes `Int64` `boolean`
 * Add slowdown annotations to the graph for intertretability
-* Replace `float128` with `longdouble` (which is more consistent across platforms)
-* Add RAM usage to each column annotation
 
 # Setup on Ian's machine
 

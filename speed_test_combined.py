@@ -124,6 +124,10 @@ new_xticks = [f"{l.get_text()} (≈{int(bytes_used[l.get_text()]/100_000):,} MB)
 plt.xticks(locs, new_xticks); #, rotation=45, horizontalalignment='right')
 ax.set_xlabel('dtype');
 
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.grid(axis='x')
+
 ax.get_figure().tight_layout()
 ax.grid()
 
