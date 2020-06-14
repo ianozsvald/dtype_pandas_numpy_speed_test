@@ -42,7 +42,7 @@ Pandas: 1.0.4
 NumPy: 1.18.5
 ```
 
-![](timings.png)
+![](timings_1e7_mean.png)
 
 This machine: i7:
 ```
